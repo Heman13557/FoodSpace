@@ -3,12 +3,13 @@ const mongoose  = require('mongoose');
 const { model, Schema } = mongoose;
 const Menu = require("./models/menuModel");
 const Review = require("./models/reviews")
+require("dotenv/config")
 const app = express();
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-mongoose.connect(`mongodb://localhost:27017/RestaurantDB`,{ useNewUrlParser: true });
+mongoose.connect(process.env.DB_cred,{ useNewUrlParser: true });
 
 const newMenu = new Menu({
     menuName: "Special",
