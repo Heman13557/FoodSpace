@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose  = require('mongoose');
 const { model, Schema } = mongoose;
 const Menu = require("./models/menuModel");
+const Review = require("./models/reviews")
 const app = express();
 
 app.use(express.urlencoded({extended: true}));
@@ -19,6 +20,12 @@ const newMenu = new Menu({
     }
 });
 
+const newReview = new Review({
+    R_Name : "Hemant",
+    R_view : "Very Delicious"
+});
+
+
 app.get("/", (req,res)=>{
     Menu.find({},(err,result)=>{
         if(result.length === 0){
@@ -27,7 +34,21 @@ app.get("/", (req,res)=>{
                 else    console.log("Inserted Successfully");
             });
         }
+        else if(result.length){
+            console.log(result)
+        }
     });
+    Review.find({},(err,result)=>{
+        if(result.length === 0){
+            Review.insertMany(newReview,(err)=>{
+        if(err) console.log(err);
+        else console.log("Review Submitted");
+    });
+}
+else if(result.length){
+    console.log(result)
+}
+});
     res.send("Created DB!");
 });
 
