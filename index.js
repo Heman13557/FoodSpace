@@ -1,24 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv/config')
-const app = express();
+const Menu = require("./models/menuModel");
+const Review = require("./models/reviews");
 
+const app = express();
 
 app.use(express.json())
 
-
 const { model, Schema } = mongoose;
-const Menu = require("./models/menuModel");
-<<<<<<< HEAD
-
-=======
-const Review = require("./models/reviews")
-require("dotenv/config")
-const app = express();
->>>>>>> master
 
 app.use(express.urlencoded({extended: true}));
-app.use(express.json());
 
 mongoose.connect(process.env.DB_cred,{ useNewUrlParser: true });
 
@@ -64,6 +56,32 @@ else if(result.length){
     res.send("Created DB!");
 
 });
+
+async function submit_review(obj){
+
+}
+
+app.post("/submit_review",(req,res)=>{
+    const {rev,name} = req.body;
+    const newReviewo = new Review({
+        R_Name : name,
+        R_view : rev
+    })
+
+try{
+    Review.insertMany(newReviewo, (err)=>{
+       if(err) console.log(err);
+       else    console.log("Inserted Successfully");
+   });
+   console.log("Data Saved :",newReviewo);
+   res.json(newReviewo)
+}
+catch(e){
+   console.log(e.message);
+}
+
+
+})
 
 app.listen(4000, ()=>{
     console.log("Server started at port 4000");
