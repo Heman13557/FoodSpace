@@ -74,7 +74,6 @@ try{
        else    console.log("Inserted Successfully");
    });
    console.log("Data Saved :",newReviewo);
-   res.json(newReviewo)
 }
 catch(e){
    console.log(e.message);
