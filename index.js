@@ -58,6 +58,16 @@ else if(result.length){
 });
 
 async function submit_review(obj){
+    try{
+       await obj.insertMany(newReviewo, (err)=>{
+           if(err) console.log(err);
+           else    console.log("Inserted Successfully");
+       });
+       console.log("Data Saved :",newReviewo);
+    }
+    catch(e){
+       console.log(e.message);
+    }
 
 }
 
@@ -67,20 +77,12 @@ app.post("/submit_review",(req,res)=>{
         R_Name : name,
         R_view : rev
     })
-
-try{
-    Review.insertMany(newReviewo, (err)=>{
-       if(err) console.log(err);
-       else    console.log("Inserted Successfully");
-   });
-   console.log("Data Saved :",newReviewo);
-}
-catch(e){
-   console.log(e.message);
-}
-
+    submit_review(newReviewo);
 
 })
+
+
+
 
 app.listen(4000, ()=>{
     console.log("Server started at port 4000");
