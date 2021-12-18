@@ -16,12 +16,12 @@ mongoose.connect(process.env.DB_cred,{ useNewUrlParser: true });
 
 app.get("/api/menu", (req,res)=>{
     try{
-        console.log(Menu.find({},(err,result)=>{
+        Menu.find({},(err,result)=>{
             if(result.length){
             res.json(result)
         }
         else console.log("Error")
-    }));
+    });
 }
     catch(e){
         console.log(e.message);
@@ -48,7 +48,7 @@ app.get("/",(req,res)=>{
 
 async function submit_review(obj){
     try{
-       await obj.insertMany(newReviewo, (err)=>{
+       await Review.insertMany(obj, (err)=>{
            if(err) console.log(err);
            else    console.log("Inserted Successfully");
        });
@@ -61,12 +61,18 @@ async function submit_review(obj){
 }
 
 app.post("/submit_review",(req,res)=>{
+    try{
     const {rev,name} = req.body;
     const newReviewo = new Review({
         R_Name : name,
         R_view : rev
     })
     submit_review(newReviewo);
+    res.send("Recieved");
+}
+catch(e){
+    console.log(e.message)
+}
 
 })
 
